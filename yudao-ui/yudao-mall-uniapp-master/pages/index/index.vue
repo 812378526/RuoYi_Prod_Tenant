@@ -64,8 +64,17 @@
     // #endif
 
     // 预览模板
-    if (options.templateId) {
-      sheep.$store('app').init(options.templateId);
+    // H5 环境下，IFrame 加载根 URL 时 uni-app 重定向可能导致查询参数丢失，
+    // 从 window.location.search 兜底获取 templateId 和 tenantId
+    let templateId = options.templateId;
+    // #ifdef H5
+    if (!templateId && window?.location) {
+      const urlParams = new URLSearchParams(window.location.search);
+      templateId = urlParams.get('templateId');
+    }
+    // #endif
+    if (templateId) {
+      sheep.$store('app').init(templateId);
     }
 
     // 解析分享信息

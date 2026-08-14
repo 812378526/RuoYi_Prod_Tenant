@@ -106,8 +106,8 @@
       <el-button @click="submitForm" type="primary" :disabled="formLoading">确 定</el-button>
       <el-button @click="dialogVisible = false">取 消</el-button>
     </template>
-    <el-dialog v-model="mapDialogVisible" title="获取经纬度" append-to-body>
-      <IFrame class="h-609px" :src="tencentLbsUrl" />
+    <el-dialog v-model="mapDialogVisible" title="获取经纬度" width="80%" append-to-body>
+      <IFrame class="h-[75vh]" :src="tencentLbsUrl" />
     </el-dialog>
   </Dialog>
 </template>

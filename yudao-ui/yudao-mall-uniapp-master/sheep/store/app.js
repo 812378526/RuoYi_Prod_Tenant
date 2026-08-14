@@ -181,12 +181,18 @@ const adaptTenant = async () => {
 
 /** 初始化装修模版 */
 const adaptTemplate = async (appTemplate, templateId) => {
-  const { data: diyTemplate } = templateId
-    ? // 查询指定模板，一般是预览时使用
-      await DiyApi.getDiyTemplate(templateId)
-    : await DiyApi.getUsedDiyTemplate();
+  let result;
+  if (templateId) {
+    // 查询指定模板，一般是预览时使用
+    result = await DiyApi.getDiyTemplate(templateId);
+  } else {
+    result = await DiyApi.getUsedDiyTemplate();
+  }
+  // 提取实际的模板数据（兼容请求成功 data 为 null 和请求失败返回 false 两种情况）
+  const diyTemplate = result?.data;
   // 模板不存在
   if (!diyTemplate) {
+    console.warn('[装修模板] 未找到模板, templateId:', templateId, ', 接口返回:', result);
     $router.error('TemplateError');
     return;
   }
